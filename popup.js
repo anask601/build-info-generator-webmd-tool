@@ -36,36 +36,34 @@ class BuildInfoGenerator {
     });
   }
 
-  showStatus(message, type) {
-    const statusEl = document.getElementById("statusMessage");
-    statusEl.textContent = message;
-    statusEl.className = `status ${type}`;
-
-    setTimeout(() => {
-      statusEl.style.display = "none";
-    }, 3000);
-  }
-
   toggleCloneOptions(isClone) {
     const options = document.getElementById("cloneOptions");
     const previousLinkField = document.getElementById("previousLink");
 
-    if (isClone) {
-      options.style.display = "block";
-      previousLinkField.required = true;
-    } else {
-      options.style.display = "none";
-      previousLinkField.required = false;
-      previousLinkField.value = ""; // Clear the field
+    if (options) {
+      if (isClone) {
+        options.style.display = "block";
+        if (previousLinkField) {
+          previousLinkField.required = true;
+        }
+      } else {
+        options.style.display = "none";
+        if (previousLinkField) {
+          previousLinkField.required = false;
+          previousLinkField.value = ""; // Clear the field
+        }
+      }
     }
   }
 
   toggleDesignShellOptions(value) {
     const options = document.getElementById("designShellOptions");
-    if (value) {
-      options.classList.add("show");
-    } else {
-      options.classList.remove("show");
+    if (options) {
+      if (value) {
+        options.classList.add("show");
+      } else {
+        options.classList.remove("show");
+      }
     }
   }
 
@@ -93,6 +91,7 @@ class BuildInfoGenerator {
       });
 
       URL.revokeObjectURL(url);
+
       this.showStatus(
         "Build information generated and downloaded successfully!",
         "success"
@@ -114,30 +113,34 @@ class BuildInfoGenerator {
 
 This ${buildType} build is completed and is ready for internal review. Please see information below.
 
-Tactic ID: ${data.tacticId}
-Promo ID: ${data.promoId}
-Brand/Department ID: ${data.brandDeptId}
-SF#: ${data.sfNumber}
-Client: ${data.client}
-Brand: ${data.brand}`;
+Tactic ID: ${data.tacticId || ""}
+Promo ID: ${data.promoId || ""}
+Brand/Department ID: ${data.brandDeptId || ""}
+SF#: ${data.sfNumber || ""}
+
+Client: ${data.client || ""}
+Brand: ${data.brand || ""}
+
+Design Shell: ${data.designShellType || ""}
+*** Link to Design Shell (FIGMA): ${data.designShellLink || "N/A"}
+
+Script: ${data.script || ""}`;
 
     // Add previous link for clone builds
     if (isClone && data.previousLink) {
       content += `
-Previous link: ${data.previousLink}`;
+
+Previous link: 
+${data.previousLink}`;
     }
 
     content += `
-Design Shell: ${data.designShellType}
-*** Link to Design Shell (FIGMA): ${data.designShellLink || "N/A"}
-
-Script: ${data.script}
 
 Program URLs: 
-${data.programUrls}
+${data.programUrls || ""}
 
-Jenkins Build #: ${data.jenkinsBuild}
-Bundle #: ${data.bundleNumber}`;
+Jenkins Build #: ${data.jenkinsBuild || ""}
+Bundle #: ${data.bundleNumber || ""}`;
 
     return content;
   }
@@ -155,12 +158,15 @@ Bundle #: ${data.bundleNumber}`;
 
   showStatus(message, type) {
     const statusEl = document.getElementById("statusMessage");
-    statusEl.textContent = message;
-    statusEl.className = `status ${type}`;
+    if (statusEl) {
+      statusEl.textContent = message;
+      statusEl.className = `status ${type}`;
+      statusEl.style.display = "block";
 
-    setTimeout(() => {
-      statusEl.style.display = "none";
-    }, 3000);
+      setTimeout(() => {
+        statusEl.style.display = "none";
+      }, 3000);
+    }
   }
 
   async saveFormData() {
