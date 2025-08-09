@@ -48,9 +48,10 @@ class BuildInfoGenerator {
       // Generate content
       const content = this.generateContent(data);
 
-      // Create filename
-      const sfNumber = data.sfNumber.replace(/[^a-zA-Z0-9.-]/g, "");
-      const filename = `BuildInfo_${sfNumber}.txt`;
+      // Create filename with brand name and SF number
+      const brandName = data.brand.replace(/[^a-zA-Z0-9]/g, "-").toLowerCase(); // Clean brand name
+      const sfNumber = data.sfNumber.replace(/[^a-zA-Z0-9.-]/g, ""); // Clean SF number
+      const filename = `${brandName}-${sfNumber}.txt`;
 
       // Download file using Chrome extension API
       const blob = new Blob([content], { type: "text/plain" });
