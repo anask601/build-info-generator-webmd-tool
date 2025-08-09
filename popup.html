@@ -13,6 +13,33 @@
       </div>
 
       <form id="buildForm">
+        <!-- Build Type Section -->
+        <div class="build-type-section">
+          <div class="form-group full-width">
+            <label class="checkbox-label">
+              <input type="checkbox" id="isCloneBuild" name="isCloneBuild" />
+              <span class="checkmark"></span>
+              This is a Clone Build (check if cloning from existing build)
+            </label>
+          </div>
+
+          <div
+            class="form-group clone-options"
+            id="cloneOptions"
+            style="display: none"
+          >
+            <label for="previousLink">Previous Build Link *</label>
+            <input
+              type="url"
+              id="previousLink"
+              name="previousLink"
+              placeholder="Enter link to previous/original build"
+            />
+          </div>
+        </div>
+
+        <div class="divider">Build Information</div>
+
         <div class="form-row">
           <div class="form-group">
             <label for="tacticId">Tactic ID *</label>
@@ -53,17 +80,9 @@
           <label for="designShellType">Design Shell Type *</label>
           <select id="designShellType" name="designShellType" required>
             <option value="">Select Type</option>
-            <option value="standard">*** Using Medscape Template ***</option>
-            <option value="wysiwyg">*** WYSIWYG Template Build ***</option>
-            <option value="figma">
-              *** Link to Design Shell (FIGMA) Link if custom build ***
-            </option>
-            <option value="3rd-party">
-              *** Path on IDT_DEV to assets if 3rd party lift ***
-            </option>
-            <option value="ca-tool">
-              *** Path on IDT_DEV to assets CA Tool ***
-            </option>
+            <option value="standard">Standard Template</option>
+            <option value="premium">Premium Template</option>
+            <option value="custom">Custom Build</option>
           </select>
         </div>
 

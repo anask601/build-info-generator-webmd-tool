@@ -23,12 +23,41 @@ class BuildInfoGenerator {
         this.toggleDesignShellOptions(e.target.value);
       });
 
+    // Clone build checkbox
+    document.getElementById("isCloneBuild").addEventListener("change", (e) => {
+      this.toggleCloneOptions(e.target.checked);
+    });
+
     // Auto-save on input
     document.querySelectorAll("input, select, textarea").forEach((element) => {
       element.addEventListener("input", () => {
         this.saveFormData();
       });
     });
+  }
+
+  showStatus(message, type) {
+    const statusEl = document.getElementById("statusMessage");
+    statusEl.textContent = message;
+    statusEl.className = `status ${type}`;
+
+    setTimeout(() => {
+      statusEl.style.display = "none";
+    }, 3000);
+  }
+
+  toggleCloneOptions(isClone) {
+    const options = document.getElementById("cloneOptions");
+    const previousLinkField = document.getElementById("previousLink");
+
+    if (isClone) {
+      options.style.display = "block";
+      previousLinkField.required = true;
+    } else {
+      options.style.display = "none";
+      previousLinkField.required = false;
+      previousLinkField.value = ""; // Clear the field
+    }
   }
 
   toggleDesignShellOptions(value) {
@@ -78,16 +107,27 @@ class BuildInfoGenerator {
   }
 
   generateContent(data) {
-    return `Hi Everyone
+    const isClone = data.isCloneBuild === "on";
+    const buildType = isClone ? "clone" : "initial";
 
-This initial / clone build is completed and is ready for internal review. Please see information below.
+    let content = `Hi Everyone
+
+This ${buildType} build is completed and is ready for internal review. Please see information below.
 
 Tactic ID: ${data.tacticId}
 Promo ID: ${data.promoId}
 Brand/Department ID: ${data.brandDeptId}
 SF#: ${data.sfNumber}
 Client: ${data.client}
-Brand: ${data.brand}
+Brand: ${data.brand}`;
+
+    // Add previous link for clone builds
+    if (isClone && data.previousLink) {
+      content += `
+Previous link: ${data.previousLink}`;
+    }
+
+    content += `
 Design Shell: ${data.designShellType}
 *** Link to Design Shell (FIGMA): ${data.designShellLink || "N/A"}
 
@@ -98,11 +138,15 @@ ${data.programUrls}
 
 Jenkins Build #: ${data.jenkinsBuild}
 Bundle #: ${data.bundleNumber}`;
+
+    return content;
   }
 
   clearForm() {
     document.getElementById("buildForm").reset();
     document.getElementById("designShellOptions").classList.remove("show");
+    document.getElementById("cloneOptions").style.display = "none";
+    document.getElementById("previousLink").required = false;
     this.showStatus("Form cleared successfully!", "success");
 
     // Clear saved data
@@ -137,9 +181,16 @@ Bundle #: ${data.bundleNumber}`;
         Object.keys(data).forEach((key) => {
           const element = document.getElementById(key);
           if (element) {
-            element.value = data[key];
-            if (key === "designShellType" && data[key]) {
-              this.toggleDesignShellOptions(data[key]);
+            if (element.type === "checkbox") {
+              element.checked = data[key] === "on";
+              if (key === "isCloneBuild") {
+                this.toggleCloneOptions(element.checked);
+              }
+            } else {
+              element.value = data[key];
+              if (key === "designShellType" && data[key]) {
+                this.toggleDesignShellOptions(data[key]);
+              }
             }
           }
         });
