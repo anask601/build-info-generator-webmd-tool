@@ -78,9 +78,6 @@ class BuildInfoGenerator {
   }
 
   generateContent(data) {
-    const now = new Date();
-    const timestamp = now.toLocaleString();
-
     return `Hi Everyone
 
 This initial / clone build is completed and is ready for internal review. Please see information below.
@@ -100,10 +97,7 @@ Program URLs:
 ${data.programUrls}
 
 Jenkins Build #: ${data.jenkinsBuild}
-Bundle #: ${data.bundleNumber}
-
-Generated on: ${timestamp}
-Status: Ready for Internal Review`;
+Bundle #: ${data.bundleNumber}`;
   }
 
   clearForm() {
