@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Build Info Generator</title>
+    <link rel="stylesheet" href="/popup.css" />
+  </head>
+  <body>
+    <div class="container">
+      <div class="header">
+        <h1>🚀 Build Info Generator</h1>
+      </div>
+
+      <form id="buildForm">
+        <div class="form-row">
+          <div class="form-group">
+            <label for="tacticId">Tactic ID *</label>
+            <input type="text" id="tacticId" name="tacticId" required />
+          </div>
+
+          <div class="form-group">
+            <label for="promoId">Promo ID *</label>
+            <input type="text" id="promoId" name="promoId" required />
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="brandDeptId">Brand/Dept ID *</label>
+            <input type="text" id="brandDeptId" name="brandDeptId" required />
+          </div>
+
+          <div class="form-group">
+            <label for="sfNumber">SF# *</label>
+            <input type="text" id="sfNumber" name="sfNumber" required />
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="client">Client *</label>
+            <input type="text" id="client" name="client" required />
+          </div>
+
+          <div class="form-group">
+            <label for="brand">Brand *</label>
+            <input type="text" id="brand" name="brand" required />
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="designShellType">Design Shell Type *</label>
+          <select id="designShellType" name="designShellType" required>
+            <option value="">Select Type</option>
+            <option value="standard">Standard Template</option>
+            <option value="premium">Premium Template</option>
+            <option value="custom">Custom Build</option>
+          </select>
+        </div>
+
+        <div class="form-group design-shell-options" id="designShellOptions">
+          <label for="designShellLink">Design Shell Link (FIGMA)</label>
+          <input
+            type="url"
+            id="designShellLink"
+            name="designShellLink"
+            placeholder="https://figma.com/..."
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="script">Script *</label>
+          <textarea id="script" name="script" required rows="3"></textarea>
+        </div>
+
+        <div class="form-group">
+          <label for="programUrls">Program URLs *</label>
+          <textarea
+            id="programUrls"
+            name="programUrls"
+            required
+            rows="3"
+          ></textarea>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="jenkinsBuild">Jenkins Build # *</label>
+            <input type="text" id="jenkinsBuild" name="jenkinsBuild" required />
+          </div>
+
+          <div class="form-group">
+            <label for="bundleNumber">Bundle # *</label>
+            <input type="text" id="bundleNumber" name="bundleNumber" required />
+          </div>
+        </div>
+
+        <div class="btn-group">
+          <button type="submit" class="generate-btn">
+            Generate & Download
+          </button>
+          <button type="button" class="clear-btn">Clear</button>
+        </div>
+      </form>
+
+      <div class="status" id="statusMessage"></div>
+    </div>
+
+    <script src="popup.js"></script>
+  </body>
+</html>
